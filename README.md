@@ -10,7 +10,7 @@ Pre-requisites
 
 Version
 
-    0.5 Not for production use. This is an alpha product.
+    1.0
 
 Description
 
