@@ -119,40 +119,41 @@ Examples
 
        uri
         Refers to the resource uri (excluding the API endpoint). For instance
-            args =  ZAPIArgs.new
-            args.uri = "/catalog/products"
+            ZAPIArgs args =  new ZAPIArgs();
+            args.set("uri", "/catalog/products");
 
         Predefined resource endpoints are provided as samples and can be found
         in ResourceEndpoints.java
 
        headers
         Used as fields in request header. Only relevant to the CONNECT API
-            args = ZAPIArgs.new
-            args.headers = ZAPIArgs.new
-            args.headers.apiAccessKeyID = "api_tester"
-            args.headers.apiSecretAccessKey = "password"
+            ZAPIArgs args =  new ZAPIArgs();
+            args.set("headers", new ZAPIArgs());
+            args.getArg("headers").set("apiAccessKeyId", "your_username");
+            args.getArg("headers").set("apiSecretAccessKey", "password");
 
         If indded th ZConfig.properties file has the default tenant's credentials
         configured, these headers will not be needed when connecting to
         the default tenant.
 
        queryString
-        Also known as HTTP parameters. For instance
-            args = ZAPIArgs.new
-            args.query_string = ZAPIArgs.new
-            args.query_string.pageSize = 20
+        Also known as HTTP parameters. For instance:
+
+            ZAPIArgs args =  new ZAPIArgs();
+            args.set("query_string", new ZAPIArgs());
+            args.getArg("query_string").set("pageSize", 20);
 
        reqBody
         Most POST and PUT APIs require substantial amount of arguments to be set
         up in the request body of the HTTP request. This needs to be set up
         before the request can be sent to the service provider.
 
-            args = ZAPIArgs.new
-            args.req_body = ZAPIArgs.new
-            args.req_body.name = "api_tester"
-            args.req_body.billToContact = ZAPIArgs.new
-            args.req_body.billToContact.firstName = "api"
-            args.req_body.billToContact.lastName = "Tester"
+            ZAPIArgs args =  new ZAPIArgs();
+            args.set("req_body", new ZAPIArgs());
+            args.getArg("req_body").set("name", "api_tester");
+            args.getArg("req_body").set("billToContact", new ZAPIArgs());
+            args.getArg("req_body").getArg("billToContact").set("firstName", "api");
+            args.getArg("req_body").getArg("billToContact").set("lastName", "Tester");
 
        Consult Zuora REST API documentation for details of the call arguments.
 
