@@ -202,6 +202,16 @@ Examples
        manager, if the nextPage key is present in the response, pass nextPage
        as the url and make a recursive call.
 
+How To 
+
+	1. To run the samples:
+		
+		mvn test
+		
+	2. To import this maven project into Eclipse:
+		
+		mvn eclipse:eclipse
+	
 Author
 
     Zuora Inc.
