@@ -83,6 +83,7 @@ public class AccountManager {
     args.getArg("reqBody").set("notes", "Soho Networks");
     args.getArg("reqBody").set("billCycleDay", "15");
     args.getArg("reqBody").set("paymentTerm", "Net 30");
+    args.getArg("reqBody").set("autoPay", true);
     args.getArg("reqBody").set("ac_Winnie__c", "ac_Winnie");
     args.getArg("reqBody").set("ac_Willie__c", "ac_boy");
     args.getArg("reqBody").set("billToContact", new ZAPIArgs());
@@ -171,6 +172,7 @@ public class AccountManager {
     args.getArg("reqBody").set("notes", "Soho Networks");
     args.getArg("reqBody").set("billCycleDay", "15");
     args.getArg("reqBody").set("paymentTerm", "Net 30");
+    args.getArg("reqBody").set("autoPay", false);
     args.getArg("reqBody").set("ac_Winnie__c", "cf v");
     args.getArg("reqBody").set("ac_Willie__c", "ac_boy");
     args.getArg("reqBody").set("billToContact", new ZAPIArgs());
