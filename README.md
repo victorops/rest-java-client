@@ -5,7 +5,7 @@ Pre-requisites
     java 6
     apache httpclient 4.2.3
     apache httpcore 4.2.2
-    apache httpmimi 4.2.3
+    apache httpmime 4.2.3
     java-json.jar
 
 Version
