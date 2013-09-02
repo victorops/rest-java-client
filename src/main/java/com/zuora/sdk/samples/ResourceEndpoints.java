@@ -44,4 +44,28 @@ public final class ResourceEndpoints {
 
   // RESOURCE USAGE API
   public static final String POST_USAGE = "/usage";
+  
+  //RESOURCE TRANSACTION REVENUE SCHEDULE
+  public static final String GET_REVENUE_SCHEDULE_DETAIL= "/revenue-schedules/{rs-number}";
+  public static final String GET_REVENUE_SCHEDULE_DETAIL_BY_INVOICE_ITEM= "/revenue-schedules/invoice-items/{invoice-item-key}";
+  public static final String GET_REVENUE_SCHEDULE_DETAIL_BY_INVOICE_ITEM_ADJUSTMENT= "/revenue-schedules/invoice-item-adjustments/{invoice-item-adj-key}";
+  
+  public static final String PUT_REVENUE_SCHEDULE_DISTRIBUTE_RATABLY= "/revenue-schedules/{rs-number}/distribute-revenue-with-date-range";
+  public static final String PUT_REVENUE_SCHEDULE_DISTRIBUTE_MANUALLY= "/revenue-schedules/{rs-number}/distribute-revenue-across-accounting-periods";
+  public static final String PUT_REVENUE_SCHEDULE_BASIC_INFORMATION= "/revenue-schedules/{rs-number}/basic-information";
+  
+  //RESOURCE REVENUE EVENT
+  public static final String GET_REVENUE_EVENTS_DETAIL= "/revenue-events/{event-number}";
+  public static final String GET_REVENUE_EVENTS_BY_REVENUE_SCHEDULE= "/revenue-events/revenue-schedules/{rs-number}";
+  
+  //RESOURCE REVENUE ITEM
+  public static final String GET_REVENUE_ITEMS_BY_CHARGE_REVENUE_SUMMARY= "/revenue-items/charge-revenue-summaries/{crs-number}";
+  public static final String GET_REVENUE_ITEMS_BY_REVENUE_SCHEDULE= "/revenue-items/revenue-schedules/{rs-number}";
+  public static final String GET_REVENUE_ITEMS_BY_REVENUE_EVENT= "/revenue-items/revenue-events/{event-number}";
+  
+  //RESOURCE REVENUE RECOGNITION RULE
+  public static final String GET_REVENUE_RECOGNITION_RULE_BY_SUBSCRIPTION_CHARGE= "/revenue-recognition-rules/subscription-charges/{charge-id}";
+  
+  //RESOURCE REVNEUE SETTING
+  public static final String GET_REVENUE_AUTOMATION_START_DATE= "/settings/finance/revenue-automation-start-date";
 }
