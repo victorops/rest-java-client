@@ -105,6 +105,7 @@ public class RevenueScheduleManager {
       args.getArg("reqBody").set("recognitionStart", "2013-02-1");
       args.getArg("reqBody").set("recognitionEnd", "2013-12-1");
       args.getArg("reqBody").set("eventType", "Revenue Distributed");
+      args.getArg("reqBody").set("eventTypeSystemId", "RevenueDistributed__z");
       args.getArg("reqBody").set("notes", "Soho Networks");
       args.getArg("reqBody").set("cf_project__c", "Project A");
       args.getArg("reqBody").set("cf_phase__c", "Phase 1");
@@ -135,6 +136,7 @@ public class RevenueScheduleManager {
 
       args.set("reqBody", new ZAPIArgs());
       args.getArg("reqBody").set("notes", "Soho Networks");
+      args.getArg("reqBody").set("referenceId", "external RS reference ID");
       args.getArg("reqBody").set("cf_project__c", "Project B");
       args.getArg("reqBody").set("cf_phase__c", "Phase 1");
       
@@ -165,6 +167,7 @@ public class RevenueScheduleManager {
       args.set("reqBody", new ZAPIArgs());
       args.getArg("reqBody").set("notes", "Soho Networks");
       args.getArg("reqBody").set("eventType", "Revenue Distributed");
+      args.getArg("reqBody").set("eventTypeSystemId", "RevenueDistributed__z");
       args.getArg("reqBody").set("cf_project__c", "Project A");
       args.getArg("reqBody").set("cf_phase__c", "Phase 1");
       args.getArg("reqBody").setArray("revenueDistributions");
@@ -191,4 +194,81 @@ public class RevenueScheduleManager {
       }
    }  
    
+   public String createRSByCharge(String chargeId, Map<String,String> distributionItems) {
+      try {
+          chargeId = URLEncoder.encode(chargeId, "UTF-8");
+       } catch (Exception e) {
+         System.out.println(e.getMessage());
+         e.printStackTrace();
+         return null;
+       }
+	   ZAPIArgs args = new ZAPIArgs();
+	   args.set("uri", ResourceEndpoints.POST_REVENUE_SCHEDULE_BY_CHARGE_MANUALLY_DISTRIBUTION.replace("{charge-key}",chargeId));
+
+	   args.set("reqBody", new ZAPIArgs());
+	   args.getArg("reqBody").set("referenceId", "reference ID");
+	   args.getArg("reqBody").set("amount", "300.00");
+	   args.getArg("reqBody").set("notes", "create external revenue schedule by the charge key");
+	   args.getArg("reqBody").setArray("revenueDistributions");
+       int count=0;
+       for(Map.Entry<String, String> item:distributionItems.entrySet()){
+          String itemKey = "revenueDistributions["+count+"]";
+          args.getArg("reqBody").set(itemKey,new ZAPIArgs());
+          args.getArg("reqBody").getArg(itemKey).set("accountingPeriodName", item.getKey());
+          args.getArg("reqBody").getArg(itemKey).set("newAmount", item.getValue());
+          count++;
+       }
+       args.getArg("reqBody").set("revenueEvent", new ZAPIArgs());
+       args.getArg("reqBody").getArg("revenueEvent").set("eventType", "Invoice Posted");
+       args.getArg("reqBody").getArg("revenueEvent").set("eventTypeSystemId", "InvoicePosted__z");
+       args.getArg("reqBody").getArg("revenueEvent").set("notes", "this is external revenue schedule");
+       System.out.println(args.toJSONString());
+       
+       System.out.println( "========== CREATE AN EXTERNAL REVENUE SCHEDULE ============");
+
+       try {
+         ZAPIResp response = zClient.post(args);
+         System.out.println(response.toJSONString());
+         if ((Integer)response.get("httpStatusCode") == 200 && (Boolean)response.get("success")) {
+           return (String)response.get("revenueScheduleNumber");
+         }
+       } catch (IllegalArgumentException e) {
+         System.out.println(e.getMessage());
+       } catch (RuntimeException e) {
+         System.out.println(e.getMessage());
+       }
+       return null;	   
+   }
+   
+   public void changeRSAmount(String rsNumber){
+	      try {
+	         rsNumber = URLEncoder.encode(rsNumber, "UTF-8");
+	      } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	        e.printStackTrace();
+	        return;
+	      }
+	      ZAPIArgs args = new ZAPIArgs();
+	      args.set("uri", ResourceEndpoints.PUT_REVENUE_SCHEDULE_CHANGE_RS_AMOUNT.replace("{rs-number}",rsNumber));
+
+
+	      args.set("reqBody", new ZAPIArgs());
+	      args.getArg("reqBody").set("amount", "300.00");
+	      args.getArg("reqBody").set("notes", "Soho Networks");
+	      args.getArg("reqBody").set("eventType", "Revenue Distributed");
+	      args.getArg("reqBody").set("eventTypeSystemId", "RevenueDistributed__z");
+
+	      System.out.println(args.toJSONString());
+	      	      
+	      System.out.println("========== change external RS amount ============");
+
+	      try {
+	        ZAPIResp response = zClient.put(args);
+	        System.out.println(response.toJSONString());
+	      } catch (IllegalArgumentException e) {
+	        System.out.println(e.getMessage());
+	      } catch (RuntimeException e) {
+	        System.out.println(e.getMessage());
+	      }
+	   }  
 }
