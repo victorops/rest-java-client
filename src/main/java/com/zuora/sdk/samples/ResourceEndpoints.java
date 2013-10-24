@@ -53,6 +53,9 @@ public final class ResourceEndpoints {
   public static final String PUT_REVENUE_SCHEDULE_DISTRIBUTE_RATABLY= "/revenue-schedules/{rs-number}/distribute-revenue-with-date-range";
   public static final String PUT_REVENUE_SCHEDULE_DISTRIBUTE_MANUALLY= "/revenue-schedules/{rs-number}/distribute-revenue-across-accounting-periods";
   public static final String PUT_REVENUE_SCHEDULE_BASIC_INFORMATION= "/revenue-schedules/{rs-number}/basic-information";
+  public static final String PUT_REVENUE_SCHEDULE_CHANGE_RS_AMOUNT="/revenue-schedules/{rs-number}/override-revenue-schedule-amount";
+  
+  public static final String POST_REVENUE_SCHEDULE_BY_CHARGE_MANUALLY_DISTRIBUTION="/revenue-schedules/subscription-charges/{charge-key}";
   
   //RESOURCE REVENUE EVENT
   public static final String GET_REVENUE_EVENTS_DETAIL= "/revenue-events/{event-number}";
@@ -64,7 +67,7 @@ public final class ResourceEndpoints {
   public static final String GET_REVENUE_ITEMS_BY_REVENUE_EVENT= "/revenue-items/revenue-events/{event-number}";
   
   //RESOURCE REVENUE RECOGNITION RULE
-  public static final String GET_REVENUE_RECOGNITION_RULE_BY_SUBSCRIPTION_CHARGE= "/revenue-recognition-rules/subscription-charges/{charge-id}";
+  public static final String GET_REVENUE_RECOGNITION_RULE_BY_SUBSCRIPTION_CHARGE= "/revenue-recognition-rules/subscription-charges/{charge-key}";
   
   //RESOURCE REVNEUE SETTING
   public static final String GET_REVENUE_AUTOMATION_START_DATE= "/settings/finance/revenue-automation-start-date";
