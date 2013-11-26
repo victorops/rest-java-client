@@ -31,6 +31,7 @@ public class RevenueScheduleManagerTest {
          crsManager.getDetailByNumber(SAMPLE_TRANSACTION_REVENUE_SCHEDULE_KEY);
          crsManager.getDetailByInvoiceItem(SAMPLE_INVOICE_ITEM_KEY);
          crsManager.getDetailByInvoiceItemAdjustment(SAMPLE_INVOICE_ITEM_ADJ_KEY);
+         crsManager.getDetailsByCharge(SAMPLE_CHARGE_KEY);
       }
    }
    

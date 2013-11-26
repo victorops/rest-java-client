@@ -47,6 +47,7 @@ public final class ResourceEndpoints {
   
   //RESOURCE TRANSACTION REVENUE SCHEDULE
   public static final String GET_REVENUE_SCHEDULE_DETAIL= "/revenue-schedules/{rs-number}";
+  public static final String GET_REVENUE_SCHEDULE_DETAILS_BY_CHARGE= "/revenue-schedules/subscription-charges/{charge-key}";
   public static final String GET_REVENUE_SCHEDULE_DETAIL_BY_INVOICE_ITEM= "/revenue-schedules/invoice-items/{invoice-item-key}";
   public static final String GET_REVENUE_SCHEDULE_DETAIL_BY_INVOICE_ITEM_ADJUSTMENT= "/revenue-schedules/invoice-item-adjustments/{invoice-item-adj-key}";
   

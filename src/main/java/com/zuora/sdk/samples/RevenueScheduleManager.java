@@ -40,6 +40,31 @@ public class RevenueScheduleManager {
      }
    }
    
+   // GET REVENUE SCHEDULEs DETAILs BY CHARGE
+   public void getDetailsByCharge(String chargeKey) {
+     try {
+    	 chargeKey = URLEncoder.encode(chargeKey, "UTF-8");
+     } catch (Exception e) {
+       System.out.println(e.getMessage());
+       e.printStackTrace();
+       return;
+     }
+     
+     ZAPIArgs args = new ZAPIArgs();
+     args.set("uri", ResourceEndpoints.GET_REVENUE_SCHEDULE_DETAILS_BY_CHARGE.replace("{charge-key}", chargeKey));
+
+     System.out.println( "========== GET REVENUE SCHEDULE DETAILS BY CHARGE ============");
+
+     try {
+       ZAPIResp response = zClient.get(args);
+       System.out.print(response.toJSONString());
+     } catch (IllegalArgumentException e) {
+       System.out.println(e.getMessage());
+     } catch (RuntimeException e) {
+       System.out.println(e.getMessage());
+     }
+   }
+      
    // GET TRANSACTION REVENUE SCHEDULE DETAIL
    public void getDetailByInvoiceItem(String invoiceItemKey) {
      try {
