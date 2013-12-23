@@ -92,17 +92,4 @@ public class RevenueScheduleManagerTest {
          crsManager.createRSByCharge(SAMPLE_CHARGE_KEY, distributionItems);
       }	   
    }
-   
-   @Test
-   public void test_change_rs_amount() {
-      ZClient zClient = new ZClient();
-
-      // create an transaction revenue schedule resource manager
-      RevenueScheduleManager crsManager = new RevenueScheduleManager(zClient);
-
-      // Connect to the End Point using default tenant's credentials
-      if (new ConnectionManager().isConnected(zClient)) {
-         crsManager.changeRSAmount(SAMPLE_TRANSACTION_REVENUE_SCHEDULE_KEY);
-      }	   
-   }   
 }

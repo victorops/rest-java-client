@@ -270,36 +270,4 @@ public class RevenueScheduleManager {
        }
        return null;	   
    }
-   
-   public void changeRSAmount(String rsNumber){
-	      try {
-	         rsNumber = URLEncoder.encode(rsNumber, "UTF-8");
-	      } catch (Exception e) {
-	        System.out.println(e.getMessage());
-	        e.printStackTrace();
-	        return;
-	      }
-	      ZAPIArgs args = new ZAPIArgs();
-	      args.set("uri", ResourceEndpoints.PUT_REVENUE_SCHEDULE_CHANGE_RS_AMOUNT.replace("{rs-number}",rsNumber));
-
-
-	      args.set("reqBody", new ZAPIArgs());
-	      args.getArg("reqBody").set("amount", "300.00");
-	      args.getArg("reqBody").set("notes", "Soho Networks");
-	      args.getArg("reqBody").set("eventType", "Revenue Distributed");
-	      args.getArg("reqBody").set("eventTypeSystemId", "RevenueDistributed__z");
-
-	      System.out.println(args.toJSONString());
-	      	      
-	      System.out.println("========== change external RS amount ============");
-
-	      try {
-	        ZAPIResp response = zClient.put(args);
-	        System.out.println(response.toJSONString());
-	      } catch (IllegalArgumentException e) {
-	        System.out.println(e.getMessage());
-	      } catch (RuntimeException e) {
-	        System.out.println(e.getMessage());
-	      }
-	   }  
 }
