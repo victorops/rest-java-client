@@ -235,6 +235,12 @@ public class RevenueScheduleManager {
 	   args.getArg("reqBody").set("amount", "300.00");
 	   args.getArg("reqBody").set("notes", "create external revenue schedule by the charge key");
 	   args.getArg("reqBody").setArray("revenueDistributions");
+	   args.getArg("reqBody").set("revenueScheduleDate", "2013-12-12");
+	   args.getArg("reqBody").set("overrideChargeAccountingCodes","true");
+	   args.getArg("reqBody").set("recognizedRevenueAccountingCode", "Usage Revenue");
+	   args.getArg("reqBody").set("deferredRevenueAccountingCodeType", "Deferred Revenue");
+	   args.getArg("reqBody").set("deferredRevenueAccountingCode", "Check");
+	   
        int count=0;
        for(Map.Entry<String, String> item:distributionItems.entrySet()){
           String itemKey = "revenueDistributions["+count+"]";
