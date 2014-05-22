@@ -8,6 +8,10 @@ Pre-requisites
     apache httpmime 4.2.3
     java-json.jar
 
+    You also need a trial account in any Zuora application, go get a free trial 
+    at http://info.zuora.com/zuora-free-trial.html and then 
+    update `src/main/resources/com/zuora/sdk/resource/ZConfig.properties` with your credential.
+
 Version
 
     1.0
