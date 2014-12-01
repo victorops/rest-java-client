@@ -72,4 +72,11 @@ public final class ResourceEndpoints {
   
   //RESOURCE REVNEUE SETTING
   public static final String GET_REVENUE_AUTOMATION_START_DATE= "/settings/finance/revenue-automation-start-date";
+  
+  //RESOURCE JOURNAL ENTRY
+  public static final String PUT_JOURNAL_ENTRY_BASIC_INFORMATION= "/journal-entries/{je-number}/basic-information";
+  
+  //RESOURCE JOURNAL RUN
+  public static final String POST_JOURNAL_RUN= "/journal-runs";
+  public static final String GET_JOURNAL_RUN= "/journal-runs/{jr-number}";
 }
