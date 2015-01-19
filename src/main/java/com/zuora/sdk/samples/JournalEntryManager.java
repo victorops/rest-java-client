@@ -29,6 +29,14 @@ public class JournalEntryManager {
 	      args.getArg("reqBody").set("transferredToAccounting", "Yes");
 	      args.getArg("reqBody").set("je_picklist1__c", "123");
 	      args.getArg("reqBody").set("je_text1__c", "Phase 1");
+	     
+	      args.getArg("reqBody").setArray("journalEntryItems");
+         args.getArg("reqBody").set("journalEntryItems[0]",  new ZAPIArgs());
+         args.getArg("reqBody").getArg("journalEntryItems[0]").set("accountingCodeType", "Deferred Revenue");
+         args.getArg("reqBody").getArg("journalEntryItems[0]").set("accountingCodeName", "Accounts Receivable");
+         args.getArg("reqBody").getArg("journalEntryItems[0]").set("type", "Credit");
+         args.getArg("reqBody").getArg("journalEntryItems[0]").set("jei_picklist1__c", "123");
+         args.getArg("reqBody").getArg("journalEntryItems[0]").set("jei_text1__c", "item 1");
 	      
 	      System.out.println("========== UPDATE BASIC INFO ============");
 
@@ -113,4 +121,29 @@ public class JournalEntryManager {
 	      System.out.println(e.getMessage());
 	    }
 	  }
+	  
+	  // Get Account Summary
+     public void getJournalEntryByJournalEntryNumber(String jeNumber) {
+       try {
+         jeNumber = URLEncoder.encode(jeNumber, "UTF-8");
+       } catch (Exception e) {
+         System.out.println(e.getMessage());
+         e.printStackTrace();
+         return;
+       }
+       
+       ZAPIArgs args = new ZAPIArgs();
+       args.set("uri", ResourceEndpoints.GET_JOURNAL_ENTRY_BY_JOURNAL_ENTRY_NUMBER.replace("{je-number}",jeNumber ));
+
+       System.out.println( "========== GET JOURNAL ENTRY BY JOURNAL ENTRY NUMBER ============");
+
+       try {
+         ZAPIResp response = zClient.get(args);
+         System.out.print(response.toJSONString());
+       } catch (IllegalArgumentException e) {
+         System.out.println(e.getMessage());
+       } catch (RuntimeException e) {
+         System.out.println(e.getMessage());
+       }
+     }
 }

@@ -77,6 +77,7 @@ public final class ResourceEndpoints {
   public static final String PUT_JOURNAL_ENTRY_BASIC_INFORMATION= "/journal-entries/{je-number}/basic-information";
   public static final String POST_JOURNAL_ENTRY="/journal-entries";
   public static final String GET_JOURNAL_ENTRIES_BY_JOURNAL_RUN_NUMBER="/journal-entries/journal-runs/{jr-number}";
+  public static final String GET_JOURNAL_ENTRY_BY_JOURNAL_ENTRY_NUMBER="/journal-entries/{je-number}";
   
   //RESOURCE JOURNAL RUN
   public static final String POST_JOURNAL_RUN= "/journal-runs";

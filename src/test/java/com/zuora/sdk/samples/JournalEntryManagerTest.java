@@ -46,4 +46,17 @@ public class JournalEntryManagerTest {
 		    	  jeManager.getJournalEntriesByJournalRunNumber(SAMPLE_JOURNAL_RUN_KEY);
 		      }
 	   }
+	   
+	   @Test
+      public void test_get_journal_entry_by_journal_entry_number(){
+            ZClient zClient = new ZClient();
+
+            // create a journal entry resource manager
+            JournalEntryManager jeManager = new JournalEntryManager(zClient);
+
+            // Connect to the End Point using default tenant's credentials
+            if (new ConnectionManager().isConnected(zClient)) {
+              jeManager.getJournalEntryByJournalEntryNumber(SAMPLE_JOURNAL_ENTRY_KEY);
+            }
+      }
 }
