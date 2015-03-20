@@ -82,4 +82,8 @@ public final class ResourceEndpoints {
   //RESOURCE JOURNAL RUN
   public static final String POST_JOURNAL_RUN= "/journal-runs";
   public static final String GET_JOURNAL_RUN= "/journal-runs/{jr-number}";
+  
+  //RESOURCE MASS UPDATE
+  public static final String PATH_MASS_UPDATE = "/bulk";
+  public static final String PATH_MASS_UPDATE_KEY = "/bulk/{bulk-key}";
 }
