@@ -116,4 +116,35 @@ public class MassUpdateManager {
     }
      return null;
   }
+  
+  public ZAPIResp stop(String bulkKey) {
+     try {
+       this.bulkKey = URLEncoder.encode(bulkKey, "UTF-8");
+     } catch (Exception e) {
+       System.out.println(e.getMessage());
+       e.printStackTrace();
+       return null;
+     }
+      ZAPIArgs args = new ZAPIArgs();
+
+      args.set("uri", ResourceEndpoints.PATH_MASS_UPDATE_STOP.replace("{bulk-key}", this.bulkKey));
+      args.set("reqBody", new ZAPIArgs());
+
+      System.out.println("========== STOP MASS UPDATER ============");
+
+      ZAPIResp response = null;
+      try {
+        ZAPIResp resp = zClient.put(args);
+        System.out.println(resp.toJSONString());
+        if ((Integer)resp.get("httpStatusCode") == 200 && (Boolean)resp.get("success")) {
+          response = resp;
+        }
+      } catch (IllegalArgumentException e) {
+        System.out.println(e.getMessage());
+      } catch (RuntimeException e) { 
+        System.out.println(e.getMessage());
+      }
+
+      return response;
+    }
 }

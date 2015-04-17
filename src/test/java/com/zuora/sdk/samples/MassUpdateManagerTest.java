@@ -24,6 +24,10 @@ public class MassUpdateManagerTest {
 
         ZAPIResp resp = massUpdateManager.get(actionKey);
         resp.toJSONString();
+        
+        resp = massUpdateManager.stop(actionKey);
       }
    }
+
+   
 }

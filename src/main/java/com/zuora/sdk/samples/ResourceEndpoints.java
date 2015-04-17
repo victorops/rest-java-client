@@ -86,4 +86,5 @@ public final class ResourceEndpoints {
   //RESOURCE MASS UPDATE
   public static final String PATH_MASS_UPDATE = "/bulk";
   public static final String PATH_MASS_UPDATE_KEY = "/bulk/{bulk-key}";
+  public static final String PATH_MASS_UPDATE_STOP = "/bulk/{bulk-key}/stop";
 }
