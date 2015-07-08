@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpDelete;
@@ -20,6 +21,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
@@ -140,9 +142,12 @@ public class ZAPI {
       throw new RuntimeException("Fatal Error in executing HTTP PUT " + url);
     }
   }
-
   // Do POST
   public ZAPIResp execPostAPI(String uri, String reqBody) {
+     return execPostAPI(uri, reqBody, null);
+  }
+  // Do POST
+  public ZAPIResp execPostAPI(String uri, String reqBody, String reqParams) {
     String url;
     // For POST CONNECT call the version number is not in the url
     if (uri.toLowerCase().contains(ZConstants.CONNECTION_URI)) {
@@ -160,7 +165,7 @@ public class ZAPI {
     httpPost.setHeader("Accept", "application/json");
 
     // For file upload dont need to set content type
-    if (!(uri.toLowerCase().contains(ZConstants.UPLOAD_USAGE_URL))) {
+    if (!(uri.toLowerCase().contains(ZConstants.UPLOAD_USAGE_URL) || uri.toLowerCase().contains(ZConstants.MASS_UPDATER_URL))) {
       // For non-POST USAGE call, request body content is in JSON
       httpPost.setHeader("Content-Type", "application/json");
     }
@@ -185,10 +190,12 @@ public class ZAPI {
     }
     // get a ssl pipe (httpclient), execute, trace response
     try {
-      if (uri.contains(ZConstants.UPLOAD_USAGE_URL)) {
+      if (uri.contains(ZConstants.UPLOAD_USAGE_URL) || uri.contains(ZConstants.MASS_UPDATER_URL)) {
         MultipartEntity entity = new MultipartEntity( HttpMultipartMode.BROWSER_COMPATIBLE );
         // For File parameters
         entity.addPart( "file", new FileBody(new File(reqBody)));
+        if(uri.contains(ZConstants.MASS_UPDATER_URL)) 
+           entity.addPart("params", new StringBody(reqParams));
         httpPost.setEntity( entity );
       } else {
         StringEntity entity = new StringEntity(reqBody);

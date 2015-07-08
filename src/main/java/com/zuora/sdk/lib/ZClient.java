@@ -117,7 +117,7 @@ public class ZClient {
       }
     }
     
-    if (uri.contains(ZConstants.UPLOAD_USAGE_URL)) {
+    if (uri.contains(ZConstants.UPLOAD_USAGE_URL) || uri.contains(ZConstants.MASS_UPDATER_URL)) {
       if (reqBody.get("filename") == null || reqBody.get("filename").equals("")) {
         errorMsg = "Missing filename argument in request body.";
         ZLogger.getInstance().log(errorMsg, ZConstants.LOG_API);
@@ -136,7 +136,9 @@ public class ZClient {
       if (uri.contains(ZConstants.UPLOAD_USAGE_URL)) {
         return zAPI.execPostAPI(uri, (String)reqBody.get("filename"));
       // Just a regular post
-      } else {
+      } else if( uri.contains(ZConstants.MASS_UPDATER_URL)) {
+         return zAPI.execPostAPI(uri, (String)reqBody.get("filename"), (String)zAPIArgs.get("params"));
+      }else {
         return zAPI.execPostAPI(uri, reqBody.toJSONString());
       }
     } catch (Exception e) {

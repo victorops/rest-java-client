@@ -12,6 +12,7 @@ public final class ZConstants {
   public static final String API_TRACE_FILENAME = "api_trace.log";
   public static final String CONNECTION_URI = "connections";
   public static final String UPLOAD_USAGE_URL = "usage";
+  public static final String MASS_UPDATER_URL = "bulk";
   public static final int LOG_SDK = 1;
   public static final int LOG_API = 2;
   public static final int LOG_BOTH = 3;
