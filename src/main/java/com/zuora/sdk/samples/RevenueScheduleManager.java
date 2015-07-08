@@ -127,6 +127,7 @@ public class RevenueScheduleManager {
       args.set("uri", ResourceEndpoints.PUT_REVENUE_SCHEDULE_DISTRIBUTE_RATABLY.replace("{rs-number}",rsNumber));
 
       args.set("reqBody", new ZAPIArgs());
+      args.getArg("reqBody").set("distributionType", "monthly distribution (Front Load)");
       args.getArg("reqBody").set("recognitionStart", "2013-02-1");
       args.getArg("reqBody").set("recognitionEnd", "2013-12-1");
       args.getArg("reqBody").set("eventType", "Revenue Distributed");
