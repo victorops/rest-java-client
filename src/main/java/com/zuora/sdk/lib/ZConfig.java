@@ -21,8 +21,12 @@ public class ZConfig {
 
   public ZConfig() {
 
-    // local config file supercedes the one in SDK
-    configFilePath = new File(System.getProperty("user.dir"), ZConstants.CONFIG_FILE).toString();
+    // The config file can be passed directly in the environment
+    configFilePath = System.getProperty("zuora.config.file");
+    if (configFilePath == null || !(new File(configFilePath).isFile())) {
+      // Otherwise, local config file supercedes the one in SDK
+      configFilePath = new File(System.getProperty("user.dir"), ZConstants.CONFIG_FILE).toString();
+    }
 
     // Attempt to use the local one, if not, use the one in the SDK
     try {
@@ -31,7 +35,7 @@ public class ZConfig {
         is = this.getClass().getClassLoader().getResourceAsStream(configFilePath);
         if (is == null) throw new FileNotFoundException("Failed to find config file " + configFilePath);
       } else {
-        is = new FileInputStream(configFilePath);      
+        is = new FileInputStream(configFilePath);
       }
     } catch (FileNotFoundException e) {
       ZLogger.getInstance().log("message " + e.getMessage(), ZConstants.LOG_SDK);
@@ -57,7 +61,7 @@ public class ZConfig {
         if (((String)me.getKey()).contains("password")) {
           ZLogger.getInstance().log(me.getKey() + " set to ********", ZConstants.LOG_SDK);
         } else {
-          ZLogger.getInstance().log(me.getKey() + " set to " + me.getValue(), ZConstants.LOG_SDK);          
+          ZLogger.getInstance().log(me.getKey() + " set to " + me.getValue(), ZConstants.LOG_SDK);
         }
       }
     }catch(Exception e){

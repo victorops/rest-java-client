@@ -23,13 +23,18 @@ public class ZLogger {
   private Logger apiLogger = Logger.getLogger("apiLogger");
 
   public ZLogger() {
-    String sdkLogDir = new File(System.getProperty("user.dir"), ZConstants.LOG_DIR).toString();
+    // The logging directory can be passed directly in the environment (must already exist)
+    String sdkLogDir = System.getProperty("zuora.log.dir");
+    if (sdkLogDir == null || !(new File(sdkLogDir).isDirectory())) {
+      // Otherwise, use the hard-coded value
+      sdkLogDir = new File(System.getProperty("user.dir"), ZConstants.LOG_DIR).toString();
+    }
 
-    // use the local one, if not, use the one in the SDK
+    // Make the logging directory if necessary
     if (!(new File(sdkLogDir).isDirectory())) {
       new File(sdkLogDir).mkdir();
     }
-    
+
     // Configure the Java Logger
     configLogger(sdkLogger, sdkLogDir, ZConstants.LOG_FILENAME);
     configLogger(apiLogger, sdkLogDir, ZConstants.API_TRACE_FILENAME);
@@ -48,7 +53,7 @@ public class ZLogger {
       return builder.toString();
     }
   }
-  
+
   public static ZLogger getInstance() {
     if (instance_ == null) {
       instance_ = new ZLogger();
