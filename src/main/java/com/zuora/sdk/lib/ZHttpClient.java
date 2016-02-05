@@ -28,20 +28,41 @@ import org.apache.http.params.CoreProtocolPNames;
 public class ZHttpClient {
 
   private static DefaultHttpClient instance_;
-
+  private static String TLS_VERSION = "TLSv1.2";
+  
   // Each thread has its own httpclient
   ZHttpClient() {
-    // Use DefaultClient for verfiy_peer client
-    if (Boolean.valueOf(((String)ZConfig.getInstance().getVal("ssl.verify.peer")).toLowerCase())) {
-      PoolingClientConnectionManager pccm = new PoolingClientConnectionManager();
-      
-      // set max connections
-      pccm.setMaxTotal(Integer.parseInt((String)ZConfig.getInstance().getVal("http.max.connection.pool.size")));
-      pccm.setDefaultMaxPerRoute(Integer.parseInt((String)ZConfig.getInstance().getVal("http.max.connection.pool.size")));
-      pccm.closeIdleConnections(15, TimeUnit.SECONDS);
-      instance_ = new DefaultHttpClient(pccm);
-    } else {
-      instance_ = friendlyHttpClient();
+    SchemeRegistry registry = new SchemeRegistry();
+    SSLSocketFactory socketFactory;
+    try {
+        if (Boolean.valueOf(((String) ZConfig.getInstance().getVal("ssl.verify.peer")).toLowerCase())) {
+            socketFactory = new SSLSocketFactory(TLS_VERSION, null, null, null, null, null,
+                    SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        } else {
+            socketFactory = new SSLSocketFactory(TLS_VERSION, null, null, null, null, new TrustStrategy() {
+                @Override
+                public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                    return true;
+                }
+            }, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        }
+        // need both http and https
+        registry.register(new Scheme("https", 443, socketFactory));
+        registry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
+        PoolingClientConnectionManager pccm = new PoolingClientConnectionManager(registry);
+
+        // set max connections
+        pccm.setMaxTotal(Integer.parseInt((String) ZConfig.getInstance().getVal("http.max.connection.pool.size")));
+        pccm.setDefaultMaxPerRoute(
+                Integer.parseInt((String) ZConfig.getInstance().getVal("http.max.connection.pool.size")));
+        pccm.closeIdleConnections(15, TimeUnit.SECONDS);
+        instance_ = new DefaultHttpClient(pccm);
+    } catch (GeneralSecurityException e) {
+        ZLogger.getInstance().log(e.getMessage(), ZConstants.LOG_BOTH);
+        ZLogger.getInstance().log(ZUtils.stackTraceToString(e), ZConstants.LOG_BOTH);
+        String errorMessage = "Fatal Error in creating HTTPClient";
+        ZLogger.getInstance().log(errorMessage, ZConstants.LOG_BOTH);
+        throw new RuntimeException(errorMessage);
     }
     configHttpClient();
   }
@@ -52,40 +73,6 @@ public class ZHttpClient {
       new ZHttpClient();
     }
     return instance_;
-  }
-
-  // Return a verify_none httpclient
-  private DefaultHttpClient friendlyHttpClient() {
-    try {
-      SchemeRegistry registry = new SchemeRegistry();
-      // say yes to any cert
-      SSLSocketFactory socketFactory = new SSLSocketFactory(new TrustStrategy() {
-        public boolean isTrusted(final X509Certificate[] chain, String authType) throws CertificateException {
-          return true;
-        }
-      }, org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-      // need both http and https
-      registry.register(new Scheme("https", 443, socketFactory));
-      registry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
-      PoolingClientConnectionManager pccm = new PoolingClientConnectionManager(registry);
-
-      // configure limits
-      pccm.setMaxTotal(Integer.parseInt((String)ZConfig.getInstance().getVal("http.max.connection.pool.size")));
-      pccm.setDefaultMaxPerRoute(Integer.parseInt((String)ZConfig.getInstance().getVal("http.max.connection.pool.size")));
-
-      // shut down connection after being idle for a minute
-      pccm.closeIdleConnections(60, TimeUnit.SECONDS);
-
-      instance_ = new DefaultHttpClient(pccm);
-      return instance_;
-    } catch (GeneralSecurityException e) {
-      ZLogger.getInstance().log(e.getMessage(), ZConstants.LOG_BOTH);
-      ZLogger.getInstance().log(ZUtils.stackTraceToString(e), ZConstants.LOG_BOTH);
-      String errorMessage = "Fatal Error in creating friendlyHTTPClient";
-      ZLogger.getInstance().log(errorMessage, ZConstants.LOG_BOTH);
-      throw new RuntimeException(errorMessage);
-    }
   }
 
   // set all the nuts and bolts for httpclient
