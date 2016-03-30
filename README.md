@@ -87,27 +87,27 @@ There are 4 key attributes in ZAPIArgs that are needed to make a REST API call:
 * uri
 Refers to the resource uri (excluding the API endpoint). For instance
 ```java
-    ZAPIArgs args =  new ZAPIArgs();
-    args.set("uri", "/catalog/products");
+ZAPIArgs args =  new ZAPIArgs();
+args.set("uri", "/catalog/products");
 ```
 Predefined resource endpoints are provided as samples and can be found in ResourceEndpoints.java
 
 * headers
 Used as fields in request header. Only relevant to the CONNECT API
 ```java
-    ZAPIArgs args =  new ZAPIArgs();
-    args.set("headers", new ZAPIArgs());
-    args.getArg("headers").set("apiAccessKeyId", "your_username");
-    args.getArg("headers").set("apiSecretAccessKey", "password");
+ZAPIArgs args =  new ZAPIArgs();
+args.set("headers", new ZAPIArgs());
+args.getArg("headers").set("apiAccessKeyId", "your_username");
+args.getArg("headers").set("apiSecretAccessKey", "password");
 ```
 If indded th ZConfig.properties file has the default tenant's credentials configured, these headers will not be needed when connecting to the default tenant.
 
 * queryString
 Also known as HTTP parameters. For instance:
 ```java
-    ZAPIArgs args =  new ZAPIArgs();
-    args.set("query_string", new ZAPIArgs());
-    args.getArg("query_string").set("pageSize", 20);
+ZAPIArgs args =  new ZAPIArgs();
+args.set("query_string", new ZAPIArgs());
+args.getArg("query_string").set("pageSize", 20);
 ```
 * reqBody
 Most POST and PUT APIs require substantial amount of arguments to be set up in the request body of the HTTP request. This needs to be set up before the request can be sent to the service provider.
@@ -130,6 +130,7 @@ To provide tenant's credentials on the fly:
 connect("box.net", "secretPassword");
 ```
 **6. Check response**
+
 Both the HTTP Status Code and Response Phrase are always included in the response object ZAPIResp. If the invocation had been successful, ZAPIResp also contains the body of the HTTP response.
 The response attributes can be parsed using getter method. For instance:
 ```java
@@ -139,11 +140,13 @@ To reach the response in a nested structure, use the getResp method.
 Refer to Zuora REST API documentation for details of the call arguments and the sample resource managers for more examples.
 
 **7. Catch exceptions**
+
 If the syntax of the arguments are wrong, for example, missing body or presence of extraneous arguments, the SDK will raise an IllegalArgumentException with the corresponding diagnostic message.
 
 If there is an exception while the call is in progress, a RuntimeException will be raised, and the corresponding stack trace will also be logged in both the sdk and api_trace log files.
 
 **8. Follow the "nextPage"**
+
 When issuing a GET call, sometimes there are multiple pages of response returned.
 
 This is indicated by the presence of the "nextPage" key in the response body.
@@ -154,11 +157,11 @@ For example, in the get_all method of the PaymentMethod resource manager, if the
 
 **1. To run the samples:**
 ```bash
-  mvn test
+mvn test
 ```
 **2. To import this maven project into Eclipse:**
 ```bash
-  mvn eclipse:eclipse
+mvn eclipse:eclipse
 ```
   
 ## Author
