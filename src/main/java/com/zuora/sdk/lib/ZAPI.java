@@ -149,14 +149,10 @@ public class ZAPI {
   // Do POST
   public ZAPIResp execPostAPI(String uri, String reqBody, String reqParams) {
     String url;
-    // For POST CONNECT call the version number is not in the url
-    if (uri.toLowerCase().contains(ZConstants.CONNECTION_URI)) {
-      url = ZConfig.getInstance().getVal("rest.api.endpoint") + uri;
-    } else {
-      // turn the resource uri to a full URL
-      url = ZConfig.getInstance().getVal("rest.api.endpoint") +
-        "/" + ZConfig.getInstance().getVal("rest.api.version") + uri;
-    }
+    
+    // turn the resource uri to a full URL
+    url = ZConfig.getInstance().getVal("rest.api.endpoint") +
+      "/" + ZConfig.getInstance().getVal("rest.api.version") + uri;
 
     // Get a httpput request ready
     HttpPost httpPost = new HttpPost(url);
