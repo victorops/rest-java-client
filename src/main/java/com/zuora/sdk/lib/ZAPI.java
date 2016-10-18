@@ -17,6 +17,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -130,7 +131,7 @@ public class ZAPI {
 
     // get a ssl pipe (httpclient), execute, trace response
     try {
-      StringEntity entity = new StringEntity(reqBody);
+      StringEntity entity = new StringEntity(reqBody, ContentType.APPLICATION_JSON);
       httpPut.setEntity(entity);
       ZAPIResp resp = tracePostAPIResponse(httpPut, sslPipe().execute(httpPut));
       httpPut.releaseConnection();
@@ -194,7 +195,7 @@ public class ZAPI {
            entity.addPart("params", new StringBody(reqParams));
         httpPost.setEntity( entity );
       } else {
-        StringEntity entity = new StringEntity(reqBody);
+        StringEntity entity = new StringEntity(reqBody, ContentType.APPLICATION_JSON);
         httpPost.setEntity(entity);
       }
       ZAPIResp resp =tracePostAPIResponse(httpPost, sslPipe().execute(httpPost));
